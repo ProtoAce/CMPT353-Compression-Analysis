@@ -47,18 +47,23 @@ def lzma_decompress(data):
     return decompressed_data
 
 # Compress data using zipfile
-def zip_compress(data):
-    compressed_data = zipfile.compress(data)
+def zip_compress(data_path):
+    with zipfile.ZipFile('data.zip', 'w', zipfile.ZIP_DEFLATED) as compressed_data:
+        compressed_data.write(data_path)
+    with open('data.zip', 'rb') as compressed_data:
+        compressed_data = compressed_data.read()
     return compressed_data
-
 # Decompress data using zipfile
 def zip_decompress(data):
     decompressed_data = zipfile.decompress(data)
     return decompressed_data
 
 # Compress data using tarfile
-def tar_compress(data):
-    compressed_data = tarfile.compress(data)
+def tar_compress(data_path):
+    with tarfile.open('data.tar.gz', 'w:gz') as compressed_data:
+        compressed_data.add(data_path)
+    with open('data.tar.gz', 'rb') as compressed_data:
+        compressed_data = compressed_data.read()
     return compressed_data
 
 # Decompress data using tarfile
