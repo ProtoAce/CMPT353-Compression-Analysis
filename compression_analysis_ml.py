@@ -47,7 +47,7 @@ def train_models():
 
 model_kneighbors, model_random_forest, model_mlp = train_models()
 
-def predict_compression_alg(filetype, filesize, model_type){
+def predict_compression_alg(filetype, filesize, model_type):
     model = None
     if model_type == 'kneighbors':
         model = model_kneighbors
@@ -73,7 +73,7 @@ def predict_compression_alg(filetype, filesize, model_type){
             max_compression_ratio_type = compression_type  
         
     return min_compression_time_type, max_compression_ratio_type
-}
+
 
 
 
