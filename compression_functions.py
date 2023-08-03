@@ -48,7 +48,7 @@ def lzma_decompress(data):
 
 # Compress data using zipfile
 def zip_compress(data_path):
-    with zipfile.ZipFile('data.zip', 'w', zipfile.ZIP_DEFLATED) as compressed_data:
+    with zipfile.ZipFile('data.zip', 'a', zipfile.ZIP_DEFLATED) as compressed_data:
         compressed_data.write(data_path)
     with open('data.zip', 'rb') as compressed_data:
         compressed_data = compressed_data.read()
