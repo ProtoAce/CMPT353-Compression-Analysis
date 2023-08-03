@@ -79,7 +79,7 @@ def get_compression_times():
                             file = file_path
                         total_time, compression_ratio, compressed_data = time_compression(file, initial_size, fn)
                         compression_data.append({'file_size': initial_size, 'compression_ratio': compression_ratio, 'compression_time': total_time, 'compression_type': key, 'single_file': True})
-                        out_file = "compressed_files/" + key + "/" + key + '-' + str(name)
+                        out_file = "compressed_files/data/" + key + "/" + key + '-' + str(name)
                         save_compression(compressed_data,key, out_file)
 
         end = time.time()
