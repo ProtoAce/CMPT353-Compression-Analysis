@@ -5,6 +5,8 @@ import lzma
 import zipfile
 import tarfile
 import os
+import shutil
+
 
 # Compress data using zlib
 def zlib_compress(data):
@@ -54,10 +56,9 @@ def zip_compress(data_path): # data_path = file_path
         compressed_data = compressed_data.read()
     return compressed_data
 # Decompress data using zipfile
-def zip_decompress(out_file):
-    with zipfile.ZipFile(out_file, 'r') as f:
-         f.extractall("decompressed_ziptar")  
-    return get_directory_size('decompressed_ziptar')
+def zip_decompress():
+    with zipfile.ZipFile('data.zip', 'r') as f:
+         f.extractall('decompressed_ziptar')
 
 # Compress data using tarfile
 def tar_compress(data_path):
@@ -68,10 +69,9 @@ def tar_compress(data_path):
     return compressed_data
 
 # Decompress data using tarfile
-def tar_decompress(out_file):
-    with tarfile.open(out_file, 'r') as f:
+def tar_decompress():
+    with tarfile.open('data.tar.gz', 'r') as f:
         f.extractall("decompressed_ziptar")
-    return get_directory_size("decompressed_ziptar")
 
 
 # from https://www.thepythoncode.com/article/get-directory-size-in-bytes-using-python
