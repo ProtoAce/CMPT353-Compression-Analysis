@@ -16,7 +16,6 @@ def time_decompression(file, decompression_function):
     start_time = time.time()
     if decompression_function == cf.zip_decompress or decompression_function == cf.tar_decompress:
         decompression_function()
-
     else:
         decompression_function(file)
     end_time = time.time()

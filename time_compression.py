@@ -52,7 +52,7 @@ def get_compression_times():
         print("current directory: ", directory, "time:", end - start_dir, "total time:", end - start)
 
     compression_data = pd.DataFrame(compression_data)
-    compression_data.to_csv('data/compression_times.csv', index=False)
+    compression_data.to_csv('compression_times.csv', index=False)
 
 
 get_compression_times()
