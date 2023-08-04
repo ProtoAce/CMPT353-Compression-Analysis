@@ -11,9 +11,12 @@ import numpy as np
 import compression_functions as cf
 import time_decompression as td
 
-data_directories = ['data/' + directory for directory in os.listdir('data') if directory != 'zip']
-data_subdirectories = [directory + '/' + subdirectory for directory in data_directories for subdirectory in os.listdir(directory)]
+data_directories = [
+    'data/' + directory for directory in os.listdir('data') if directory != 'zip']
+data_subdirectories = [
+    directory + '/' + subdirectory for directory in data_directories for subdirectory in os.listdir(directory)]
 print(len(data_subdirectories))
+
 
 def time_compression(file, initial_size, compression_function):
     start_time = time.time()
@@ -24,32 +27,41 @@ def time_compression(file, initial_size, compression_function):
     compression_ratio = initial_size / final_size
     return total_time, compression_ratio, compressed_data
 
-compression_functions = {'gzip': cf.gzip_compress, 'zlib': cf.zlib_compress, 'bz2': cf.bz2_compress, 'lzma': cf.lzma_compress, 'zipfile': cf.zip_compress, 'tarfile': cf.tar_compress}
-decompression_functions = {'gzip': cf.gzip_decompress, 'zlib': cf.zlib_decompress, 'bz2': cf.bz2_decompress, 'lzma': cf.lzma_decompress, 'zipfile': cf.zip_decompress, 'tarfile': cf.tar_decompress}
+
+compression_functions = {'gzip': cf.gzip_compress, 'zlib': cf.zlib_compress, 'bz2': cf.bz2_compress,
+                         'lzma': cf.lzma_compress, 'zipfile': cf.zip_compress, 'tarfile': cf.tar_compress}
+decompression_functions = {'gzip': cf.gzip_decompress, 'zlib': cf.zlib_decompress, 'bz2': cf.bz2_decompress,
+                           'lzma': cf.lzma_decompress, 'zipfile': cf.zip_decompress, 'tarfile': cf.tar_decompress}
+
 
 def get_compression_times():
     compression_data = []
     start = time.time()
     for directory in data_subdirectories:
         start_dir = time.time()
-        for file in  os.listdir(directory):
-            file_path = directory + "/"+ file
+        for file in os.listdir(directory):
+            file_path = directory + "/" + file
+            file_type = file.split('.')[-1]
             initial_size = os.path.getsize(file_path)
             with open(file_path, 'rb') as f:
                 file = f.read()
-            
+
             for key, fn in compression_functions.items():
                 if key == 'zipfile' or key == 'tarfile':
                     file = file_path
-                total_time, compression_ratio, compressed_data = time_compression(file, initial_size, fn)
-                total_time_decomp = td.time_decompression(compressed_data, decompression_functions[key])
+                total_time, compression_ratio, compressed_data = time_compression(
+                    file, initial_size, fn)
+                total_time_decomp = td.time_decompression(
+                    compressed_data, decompression_functions[key])
                 compression_data.append({'file_size': initial_size, 'compression_ratio': compression_ratio,
-                                                    'compression_time': total_time, 'compression_type': key, 
-                                                    'decompression_time': total_time_decomp,
-                                                    'storage_type': "HDD"})
-                
+                                         'compression_time': total_time, 'compression_type': key,
+                                         'decompression_time': total_time_decomp,
+                                         'storage_type': "HDD",
+                                         'file_type': file_type})
+
         end = time.time()
-        print("current directory: ", directory, "time:", end - start_dir, "total time:", end - start)
+        print("current directory: ", directory, "time:",
+              end - start_dir, "total time:", end - start)
 
     compression_data = pd.DataFrame(compression_data)
     compression_data.to_csv('compression_times.csv', index=False)
