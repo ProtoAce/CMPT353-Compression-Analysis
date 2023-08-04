@@ -42,11 +42,11 @@ def get_compression_times():
                 if key == 'zipfile' or key == 'tarfile':
                     file = file_path
                 total_time, compression_ratio, compressed_data = time_compression(file, initial_size, fn)
-                total_time_decomp, final_size_decomp = td.time_decompression(compressed_data, decompression_functions[key])
+                total_time_decomp = td.time_decompression(compressed_data, decompression_functions[key])
                 compression_data.append({'file_size': initial_size, 'compression_ratio': compression_ratio,
                                                     'compression_time': total_time, 'compression_type': key, 
-                                                    'decompression_time': total_time_decomp, 
-                                                    'decompression_size': final_size_decomp})
+                                                    'decompression_time': total_time_decomp,
+                                                    'storage_type': "HDD"})
                 
         end = time.time()
         print("current directory: ", directory, "time:", end - start_dir, "total time:", end - start)
