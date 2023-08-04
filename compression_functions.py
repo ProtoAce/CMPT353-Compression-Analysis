@@ -56,7 +56,7 @@ def zip_compress(data_path): # data_path = file_path
 # Decompress data using zipfile
 def zip_decompress(out_file):
     with zipfile.ZipFile(out_file, 'r') as f:
-         f.extractall("data/data/compressed_files/")  
+         f.extractall("decompressed_ziptar")  
          return
 
 # Compress data using tarfile
@@ -70,7 +70,7 @@ def tar_compress(data_path):
 # Decompress data using tarfile
 def tar_decompress(out_file):
     with tarfile.open(out_file, 'r') as f:
-        f.extractall("data/data/compressed_files/")
+        f.extractall("decompressed_ziptar")
         return
 
 

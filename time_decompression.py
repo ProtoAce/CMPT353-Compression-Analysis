@@ -10,13 +10,13 @@ import pandas as pd
 import numpy as np
 import compression_functions as cf
 
-data_directories = ['compressed_data/' + directory for directory in os.listdir('data') if directory != 'zip']
+data_directories = ['compressed_files/' + directory for directory in os.listdir('data') if directory != 'zip']
 data_subdirectories = [directory + '/' + subdirectory for directory in data_directories for subdirectory in os.listdir(directory)]
 print(len(data_subdirectories))
 
-def time_decompression(file, initial_size, de_compression_function):
+def time_decompression(file, de_compression_function):
     start_time = time.time()
-    compressed_data = de_compression_function(file)
+    decompressed_data = de_compression_function(file)
     end_time = time.time()
     total_time = end_time - start_time
     # final_size = len(compressed_data)
@@ -29,7 +29,9 @@ compression_functions = {'gzip': cf.gzip_decompress, 'zlib': cf.zlib_decompress,
 def get_decompression_times():
     decompression_data = []
     start = time.time()
+    print(data_subdirectories)
     for directory in data_subdirectories:
+        print(directory)
         start_dir = time.time()
         decompression_func = None
         if("zlib" in directory):
@@ -46,17 +48,19 @@ def get_decompression_times():
             decompression_func = cf.tar_decompress
         for file in  os.listdir(directory):
             file_path = directory + "/"+ file
+            print(file_path)
             with open(file_path, 'rb') as f:
                 file = f.read()
             if decompression_func == cf.zip_decompress or decompression_func == cf.tar_decompress:
                 file = file_path
+                print(file_path)
             total_time= time_decompression(file, decompression_func)
-            compression_data.append({'decompression_time': total_time, 'decompression_type': key, 'single_file': True})
+            decompression_data.append({'decompression_time': total_time, 'decompression_type': directory.split("/")[-1], 'single_file': True})
         end = time.time()
         print("current directory: ", directory, "time:", end - start_dir, "total time:", end - start)
 
-    compression_data = pd.DataFrame(compression_data)
-    compression_data.to_csv('data/compression_times.csv', index=False)
+    decompression_data = pd.DataFrame(decompression_data)
+    decompression_data.to_csv('decompression_times.csv', index=False)
 
 
 get_decompression_times()
