@@ -22,7 +22,7 @@ def train_models():
     data['storage_type'] = le.fit_transform(data['storage_type'])
 
     X = data[['file_size', 'compression_type', 'storage_type']]
-    y = data[['compression_time', 'compression_ratio']]
+    y = data['decompression_time']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
