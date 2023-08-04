@@ -15,13 +15,17 @@ data_subdirectories = [directory + '/' + subdirectory for directory in data_dire
 print(len(data_subdirectories))
 
 def time_decompression(file, de_compression_function):
+    final_size = 0
     start_time = time.time()
     decompressed_data = de_compression_function(file)
     end_time = time.time()
     total_time = end_time - start_time
-    # final_size = len(compressed_data)
+    if de_compression_function == cf.zip_decompress or de_compression_function == cf.tar_decompress:
+        final_size = decompressed_data
+    else:
+        final_size = len(decompressed_data)
     # compression_ratio = initial_size / final_size
-    return total_time #, compression_ratio
+    return total_time , final_size
 
 compression_functions = {'gzip': cf.gzip_decompress, 'zlib': cf.zlib_decompress, 'bz2': cf.bz2_decompress, 'lzma': cf.lzma_decompress, 'zipfile': cf.zip_decompress, 'tarfile': cf.tar_decompress}
 
@@ -48,14 +52,15 @@ def get_decompression_times():
             decompression_func = cf.tar_decompress
         for file in  os.listdir(directory):
             file_path = directory + "/"+ file
+            initial_size = os.path.getsize(file_path)
             print(file_path)
             with open(file_path, 'rb') as f:
                 file = f.read()
             if decompression_func == cf.zip_decompress or decompression_func == cf.tar_decompress:
                 file = file_path
                 print(file_path)
-            total_time= time_decompression(file, decompression_func)
-            decompression_data.append({'decompression_time': total_time, 'decompression_type': directory.split("/")[-1], 'single_file': True})
+            total_time, final_size = time_decompression(file, decompression_func)
+            decompression_data.append({'compressed size': initial_size, 'decompressed size': final_size, 'decompression_time': total_time, 'decompression_type': directory.split("/")[-1], 'single_file': True})
         end = time.time()
         print("current directory: ", directory, "time:", end - start_dir, "total time:", end - start)
 
