@@ -1,11 +1,5 @@
 import time
 import os
-import zlib
-import gzip
-import bz2
-import lzma
-import zipfile
-import tarfile
 import pandas as pd
 import numpy as np
 import compression_functions as cf
@@ -64,7 +58,8 @@ def get_compression_times():
               end - start_dir, "total time:", end - start)
 
     compression_data = pd.DataFrame(compression_data)
-    compression_data.to_csv('compression_times.csv', index=False)
+    compression_data.to_csv(
+        'compression_times/compression_times_HDD.csv', index=False)
 
 
 get_compression_times()

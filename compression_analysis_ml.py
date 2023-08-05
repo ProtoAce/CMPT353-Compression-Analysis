@@ -23,17 +23,20 @@ def train_models():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-    # model_kneighbors = make_pipeline(StandardScaler(),
-    #                                  KNeighborsRegressor(n_neighbors=10))
-    # model_kneighbors.fit(X_train, y_train)
-    # print("kneighbors train:", model_kneighbors.score(X_train, y_train))
-    # print("kneighbors test:", model_kneighbors.score(X_test, y_test))
-
     model_random_forest = RandomForestRegressor(n_estimators=100, max_depth=13)
     model_random_forest.fit(X_train.values, y_train)
     # print("random forest train:", model_random_forest.score(X_train, y_train))
     # print("random forest test:", model_random_forest.score(X_test, y_test))
 
+    # kneighbors and mlp are commented because they are not as accurate
+    # as random forest, but we left them in because we reference them in the
+    # report
+
+    # model_kneighbors = make_pipeline(StandardScaler(),
+    #                                  KNeighborsRegressor(n_neighbors=10))
+    # model_kneighbors.fit(X_train, y_train)
+    # print("kneighbors train:", model_kneighbors.score(X_train, y_train))
+    # print("kneighbors test:", model_kneighbors.score(X_test, y_test))
     # model_mlp = make_pipeline(StandardScaler(),
     #                           MLPRegressor(hidden_layer_sizes=(8,), activation='logistic', max_iter=10000, solver='lbfgs'))
     # model_mlp.fit(X_train, y_train)
